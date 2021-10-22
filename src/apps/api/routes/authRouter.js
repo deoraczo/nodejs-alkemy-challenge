@@ -12,7 +12,7 @@ const authRouter = (sequelize, eventBus) => {
     const authService = new AuhtService(userRepository, eventBus);
     const auhtController = new AuhtController(authService);
 
-    router.post('/login', auhtController.signin);
+    router.post('/login', asyncHandler(auhtController.signin));
     router.post('/register', asyncHandler(auhtController.signup))
 
     return router;

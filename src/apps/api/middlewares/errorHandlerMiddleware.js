@@ -1,3 +1,4 @@
+const UnauthorizedException = require("../../../shared/exceptions/UnauthorizedException");
 const ValidationException = require("../../../shared/exceptions/ValidationException");
 
 const errorHandler = (err, req, res, next) => {
@@ -23,6 +24,13 @@ const errorHandler = (err, req, res, next) => {
             error: 'ValidationError',
             message: 'The given data was invalid',
             errors: errors
+        })
+    }
+
+    if (err instanceof UnauthorizedException) {
+        return res.status(401).json({
+            error: 'UnauthorizedError',
+            message: err.message
         })
     }
 

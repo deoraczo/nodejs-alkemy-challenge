@@ -1,3 +1,4 @@
+const authConfig = require("./authConfig");
 const databaseConfig = require("./databaseConfig");
 const mailConfig = require("./mailConfig");
 const serverConfig = require("./serverConfig");
@@ -5,5 +6,6 @@ const serverConfig = require("./serverConfig");
 module.exports = {
     serverConfig: serverConfig,
     databaseConfig: databaseConfig,
-    mailConfig: mailConfig
+    mailConfig: mailConfig,
+    authConfig: authConfig
 }

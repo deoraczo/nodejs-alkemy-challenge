@@ -4,7 +4,17 @@ const UserFinder = require("../../users/application/UserFinder");
 const ValidationException = require('../../../shared/exceptions/ValidationException');
 const Yup = require('yup');
 const UserRegisteredEvent = require("../../users/domain/UserRegisteredEvent");
+const JwtProvider = require("../../../shared/infrastructure/JwtProvider");
+const UnauthorizedException = require("../../../shared/exceptions/UnauthorizedException");
 
+
+const createAccessToken = (payload) => {
+    const token = JwtProvider.generate(payload);
+    return {
+        accessToken: token,
+        expiresIn: 55555
+    };
+}
 class AuhtService {
     constructor(userRepository, eventBus) {       
         this.userRepository = userRepository;
@@ -13,22 +23,19 @@ class AuhtService {
     }
 
     authenticate = async ({ email, password }) => {
-        const user = await this.User.findOne({ where: { email }})
+        const user = await this.userFinder.findByCriteria({ where: { email }})
 
         if (!user) {
-            throw new Error('Invalid credentials');
+            throw new UnauthorizedException('Invalid credentials');
         }
 
         const matchedPassword = PasswordEncryptor.compare(password, user.password);
 
         if (!matchedPassword) {
-            throw new Error('Invalid credentials');
+            throw new UnauthorizedException('Invalid credentials');
         }
         
-        return {
-            token: 'sdfsdfsdf',
-            expiresIn: 4552
-        }
+        return createAccessToken({ user: { id: user.id }});
     }
 
     register = async ({ name, email, password }) => {
@@ -71,9 +78,14 @@ class AuhtService {
            throw new ValidationException(JSON.stringify(validationErrors));
         }
         
-        const createdUser =  await this.userRepository.save({ name, email, password });
+        const hashedPassword = PasswordEncryptor.encrypt(password);
+
+        const createdUser =  await this.userRepository.save({ name, email, password: hashedPassword });
         //console.log(createdUser.email);
-        this.eventBus.publish([new UserRegisteredEvent(createdUser)]);        
+        
+        this.eventBus.publish([new UserRegisteredEvent(createdUser)]);       
+        
+        return createAccessToken({ user: { id: createdUser.id }});
     }
 }
 

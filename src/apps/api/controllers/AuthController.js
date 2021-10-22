@@ -9,9 +9,9 @@ class AuhtController {
 
         const { email, password } = req.body;
         const signInReponse = await this.authService.authenticate({ email, password });
-        console.log(signInReponse);
         return res.json({
-            message: 'User logged in successfully'
+            message: 'User logged in successfully',
+            data: signInReponse
         })
     }
 
@@ -20,7 +20,8 @@ class AuhtController {
         const signUpReponse = await this.authService.register({ name, email, password });
 
         return res.json({
-            message: 'User logged up successfully'
+            message: 'User logged up successfully',
+            data: signUpReponse
         })
     }
 }
