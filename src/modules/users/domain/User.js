@@ -10,6 +10,10 @@ const createUserModel = (sequelize) => {
                 autoIncrement: true,
                 allowNull: false
             },
+            name: {
+                type: DataTypes.STRING(150),
+                allowNull: false
+            },
             email: {
                 type: DataTypes.STRING(150),
                 unique: true,

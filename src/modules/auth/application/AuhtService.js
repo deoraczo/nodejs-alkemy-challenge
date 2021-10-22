@@ -64,7 +64,6 @@ class AuhtService {
             await validationSchema.validate({ name, email, password }, { abortEarly: false });
         }
         catch (err) {
-            console.log(err);
             const validationErrors = err.inner.map(constraint => ({
                 path: constraint.path,
                 message: constraint.errors[0]
