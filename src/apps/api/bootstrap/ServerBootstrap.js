@@ -1,11 +1,19 @@
 const http = require('http');
 const serverConfig = require('../config/serverConfig');
 const createAppExpress = require('../app');
+const InMemoryEventBus = require('../../../shared/domain/InMemoryEventBus');
+const SendWelcomeUserEmailOnUserRegistered = require('../../../modules/auth/application/SendWelcomeUserEmailOnUserRegistered');
+const UserRegisteredEvent = require('../../../modules/users/domain/UserRegisteredEvent');
 
 
 class ServerBootstrap {    
     initialize(sequelize) {
-        const app = createAppExpress(sequelize);
+        const eventBus = new InMemoryEventBus();
+        eventBus.addSubscriber([
+            new SendWelcomeUserEmailOnUserRegistered()
+        ]);
+
+        const app = createAppExpress(sequelize, eventBus);
         
         return new Promise((resolve, reject) => {
             const server = http.createServer(app);

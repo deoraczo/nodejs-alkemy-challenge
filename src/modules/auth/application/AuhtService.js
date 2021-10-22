@@ -3,10 +3,12 @@ const PasswordEncryptor = require("../../../shared/infrastructure/PasswordEncryp
 const UserFinder = require("../../users/application/UserFinder");
 const ValidationException = require('../../../shared/exceptions/ValidationException');
 const Yup = require('yup');
+const UserRegisteredEvent = require("../../users/domain/UserRegisteredEvent");
 
 class AuhtService {
-    constructor(userRepository) {       
+    constructor(userRepository, eventBus) {       
         this.userRepository = userRepository;
+        this.eventBus = eventBus;
         this.userFinder = new UserFinder(userRepository);
     }
 
@@ -71,7 +73,8 @@ class AuhtService {
         }
         
         const createdUser =  await this.userRepository.save({ name, email, password });
-        
+        //console.log(createdUser.email);
+        this.eventBus.publish([new UserRegisteredEvent(createdUser)]);        
     }
 }
 

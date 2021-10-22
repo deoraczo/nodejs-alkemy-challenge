@@ -5,11 +5,11 @@ const DatabaseBootstrap = require('../bootstrap/DatabaseBootstrap');
 const AuhtController = require('../controllers/AuthController');
 const asyncHandler = require('../middlewares/asyncHandlerMiddleware');
 
-const authRouter = (sequelize) => {
+const authRouter = (sequelize, eventBus) => {
     const router = Router();
 
     const userRepository = new UserRepository(sequelize);
-    const authService = new AuhtService(userRepository);
+    const authService = new AuhtService(userRepository, eventBus);
     const auhtController = new AuhtController(authService);
 
     router.post('/login', auhtController.signin);
