@@ -1,10 +1,12 @@
 const { Router } =  require('express');
 const authRouter = require('./authRouter');
-const healthRouter = require('./healthRouter');
 
-const router = Router();
+const createRouter = (sequelize) => {
+    const router = Router();
+    
+    router.use('/auth', authRouter(sequelize));
 
-router.use('/health', healthRouter);
-router.use('/auth', authRouter);
+    return router;
+}
 
-module.exports = router;
+module.exports = createRouter;
