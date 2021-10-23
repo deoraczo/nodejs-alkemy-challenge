@@ -1,3 +1,4 @@
+const NotFoundException = require("../../../shared/exceptions/NotFoundException");
 const UnauthorizedException = require("../../../shared/exceptions/UnauthorizedException");
 const ValidationException = require("../../../shared/exceptions/ValidationException");
 
@@ -30,6 +31,13 @@ const errorHandler = (err, req, res, next) => {
     if (err instanceof UnauthorizedException) {
         return res.status(401).json({
             error: 'UnauthorizedError',
+            message: err.message
+        })
+    }
+
+    if (err instanceof NotFoundException) {
+        return res.status(404).json({
+            error: 'NotFoundError',
             message: err.message
         })
     }

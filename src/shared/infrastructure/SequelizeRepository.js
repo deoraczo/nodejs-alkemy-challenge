@@ -10,11 +10,27 @@ class SequelizeRepository {
     }
 
     async findById(id) {
-        return await this.model.findByPK(id);
+        return await this.model.findByPk(id);
     }
 
     async findByCriteria(criteria) {
         return await this.model.findOne({ ...criteria });
+    }
+    
+    async findAllByCriteria(criteria) {
+        return await this.model.findAll(criteria);
+    }
+
+    async remove(id) {
+        return await this.model.destroy({ where: { id } });
+    }
+
+    async update(id, model) {
+        await this.model.update(model, {
+            where: {
+              id
+            },
+        });
     }
     
 }
