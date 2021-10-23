@@ -6,6 +6,10 @@ class JwtProvider {
             expiresIn: authConfig.JWT_EXPIRES_IN
         })
     }
+
+    static decode(token) {
+        return jwt.verify(token, authConfig.JWT_SECRET)
+    }
 }
 
 module.exports = JwtProvider;
