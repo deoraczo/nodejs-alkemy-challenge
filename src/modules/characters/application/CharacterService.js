@@ -2,50 +2,18 @@ const CharacterFinder = require("./CharacterFinder");
 const Yup = require('yup');
 const ValidationException = require("../../../shared/exceptions/ValidationException");
 const { Op } = require("sequelize");
+const CharacterValidator = require("../domain/CharacterValidator");
 
 class CharacterService {
     constructor(characterRepository){
         this.characterRepository = characterRepository;
         this.finder = new CharacterFinder(characterRepository);
+        this.characterValidator = new CharacterValidator(characterRepository);
     }
 
     async createCharacter({ name, age, weigth, history, image }) {
 
-        const validationSchema = Yup.object().shape(
-            {
-                name: Yup.string()
-                    .strict()
-                    .required()
-                    .min(3)
-                    .test(
-                        'unique',
-                        'character with this name already exists',
-                        async value => {
-                            if (!value) {
-                                return true;
-                            }
-
-                            const nameExists = await this.finder.findByCriteria({ where: { name: value }});
-
-                            return !nameExists;
-                        }
-                    ),
-                age: Yup.number().integer().nullable(),
-                image: Yup.string().url().nullable(),
-                history: Yup.string().strict().nullable(),
-                weigth: Yup.number().nullable()
-            }
-        );
-
-        try {
-            await validationSchema.validate({ name, age, image, history, weigth }, { abortEarly: false });
-        } catch (err) {
-            const validationErrors = err.inner.map(constraint => ({
-                path: constraint.path,
-                message: constraint.errors[0]
-            }))
-           throw new ValidationException(JSON.stringify(validationErrors));
-        }
+        await this.characterValidator.validateCreateCharacter({ name, age, image, history, weigth });
 
         const createdCharacter = await this.characterRepository.save({ name, age, weigth, history, image });
         
@@ -67,50 +35,7 @@ class CharacterService {
     async updateCharacter({ id, name, age, weigth, history, image }) {
         const character = await this.finder.findById(id);
 
-        const validationSchema = Yup.object().shape(
-            {
-                name: Yup.string()
-                    .strict()
-                    .required()
-                    .min(3)
-                    .test(
-                        'unique',
-                        'character with this name already exists',
-                        async value => {
-                            if (!value) {
-                                return true;
-                            }
-
-                            const nameExists = await this.finder.findByCriteria(
-                                { 
-                                    where: { 
-                                        name: value,
-                                        id: {
-                                            [Op.ne]: id
-                                        }
-                                    }
-                                }
-                            );
-
-                            return !nameExists;
-                        }
-                    ),
-                age: Yup.number().integer().nullable(),
-                image: Yup.string().url().nullable(),
-                history: Yup.string().strict().nullable(),
-                weigth: Yup.number().nullable()
-            }
-        );
-
-        try {
-            await validationSchema.validate({ name, age, image, history, weigth }, { abortEarly: false });
-        } catch (err) {
-            const validationErrors = err.inner.map(constraint => ({
-                path: constraint.path,
-                message: constraint.errors[0]
-            }))
-           throw new ValidationException(JSON.stringify(validationErrors));
-        }
+        await this.characterValidator.validateUpdateCharacter(id, { name, age, image, history, weigth });
 
         await this.characterRepository.update(id, { name, age, image, history, weigth })
     }

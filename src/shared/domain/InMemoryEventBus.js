@@ -11,7 +11,6 @@ class InMemoryEventBus {
     }
 
     async publish(events) {
-        console.log('..... 1', events)
         this.emmiterBus.publish(events);
     }
 }

@@ -39,7 +39,6 @@ class AuhtService {
     }
 
     register = async ({ name, email, password }) => {
-        console.log(typeof name)
         const validationSchema = Yup.object().shape({
             name: Yup.string().strict()
                 .test(

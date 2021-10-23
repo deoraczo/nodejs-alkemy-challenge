@@ -8,8 +8,7 @@ class EventEmmiterBus extends EventEmitter {
     registerSubscribers(subscribers) {
         subscribers.map(subscriber => {
             subscriber.subscribedTo().map(event => {
-                console.log(event);
-                this.on(event.NAME, subscriber.on.bind(subscriber))
+                this.on(event.NAME, subscriber.on) // TODO: refactor method = async ()
             });
         })
     }

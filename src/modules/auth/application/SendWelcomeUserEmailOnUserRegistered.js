@@ -9,7 +9,7 @@ class SendWelcomeUserEmailOnUserRegistered {
         return [UserRegisteredEvent];
     }
 
-    async on(event) {
+    on = async (event) => {
         const  { user }  = event;
         const msg = {
             to: user.email,
