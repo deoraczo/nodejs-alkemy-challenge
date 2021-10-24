@@ -4,6 +4,7 @@ const CharacterFilmService = require('../../../modules/films/application/Charact
 const FilmService = require('../../../modules/films/application/FilmService');
 const SequelizeCharacterFilmRepository = require('../../../modules/films/infrastructure/SequelizeCharacterFilmRepository');
 const SequelizeFilmRepository = require('../../../modules/films/infrastructure/SequelizeFilmRepository');
+const SequelizeGenderRepository = require('../../../modules/genders/infrastructure/SequelizeGenderRepository');
 const CharacterFilmController = require('../controllers/CharacterFilmController');
 const FilmController = require('../controllers/FilmController');
 const asyncHandler = require('../middlewares/asyncHandlerMiddleware');
@@ -13,9 +14,10 @@ const filmRouter = (sequelize) => {
     const router = Router();
 
     const characterRepository = new SequelizeCharacterRepository(sequelize);
+    const genderRepository = new SequelizeGenderRepository(sequelize);
 
     const repository = new SequelizeFilmRepository(sequelize);
-    const service = new FilmService(repository);
+    const service = new FilmService(repository, genderRepository);
     const controller = new FilmController(service);
 
     const charaFilmRepository = new SequelizeCharacterFilmRepository(sequelize);
@@ -27,6 +29,7 @@ const filmRouter = (sequelize) => {
         .post(authHandler, asyncHandler(controller.createFilm));
     
     router.route('/:id')
+        .get(authHandler, asyncHandler(controller.getFilm))
         .put(authHandler, asyncHandler(controller.updateFilm))
         .delete(authHandler, asyncHandler(controller.deleteFilm));
 

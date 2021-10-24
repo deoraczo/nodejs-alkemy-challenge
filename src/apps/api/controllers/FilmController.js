@@ -4,8 +4,8 @@ class FilmController {
     }
 
     createFilm = async (req, res, next) => {
-        const { type, title, releaseDate, image, rating } = req.body;
-        const createFilmResponse = await this.service.createFilm({ type: type?.toLowerCase() , title, releaseDate, image, rating });
+        const { type, title, releaseDate, image, rating, genderId } = req.body;
+        const createFilmResponse = await this.service.createFilm({ type: type?.toLowerCase() , title, releaseDate, image, rating, genderId });
 
         return res.status(201).json({
             message: 'Movie created successfully',
@@ -17,9 +17,9 @@ class FilmController {
 
     updateFilm = async (req, res, next) => {
         const { id } = req.params;
-        const { type, title, releaseDate, image, rating } = req.body; 
+        const { type, title, releaseDate, image, rating, genderId } = req.body; 
 
-        await this.service.updateFilm(id, { type: type?.toLowerCase() , title, releaseDate, image, rating });
+        await this.service.updateFilm(id, { type: type?.toLowerCase() , title, releaseDate, image, rating, genderId });
 
         return res.json({
             message: 'Movie updated successfully'
@@ -43,6 +43,18 @@ class FilmController {
         
         return res.json({
             message: 'Movie deleted successfully'
+        });
+    }
+
+    getFilm = async (req, res, next) => {
+        const { id } = req.params;
+
+        const movie = await this.service.findFilm(id);
+
+        return res.json({
+            data: {
+                movie
+            }
         });
     }
 }

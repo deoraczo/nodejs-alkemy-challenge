@@ -12,7 +12,7 @@ const databaseConfig = {
     operatorsAliases: 0,
     logging: false,
     define: {
-      timestamps: true,
+      timestamps: false,
       underscored: true,
       underscoredAll: true
     }

@@ -26,14 +26,6 @@ const createUserModel = (sequelize) => {
                 type: DataTypes.ENUM(['ACTIVE', 'INACTIVE']),
                 allowNull: false,
                 defaultValue: 'ACTIVE'
-            },
-            createdAt: {
-                type: DataTypes.DATE,
-                allowNull: false
-            },
-            updatedAt: {
-                type: DataTypes.DATE,
-                allowNull: false
             }
         },
         {

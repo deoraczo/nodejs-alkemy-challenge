@@ -2,9 +2,9 @@ const FilmFinder = require("../domain/FilmFinder");
 const FilmValidator = require("../domain/FilmValidator");
 
 class FilmService {
-    constructor(repository) {
+    constructor(repository, genderRepository) {
         this.repository = repository;
-        this.validator = new FilmValidator(repository);
+        this.validator = new FilmValidator(repository, genderRepository);
         this.finder = new FilmFinder(repository);
     }
 
@@ -33,6 +33,28 @@ class FilmService {
         await this.finder.findById(id);
         
         await this.repository.remove(id);
+    }
+
+    async findFilm(id) {
+        const filter = {
+            where: {
+                id
+            },
+            include: [
+                {
+                    model: 'Character',
+                    as: 'characters',
+                    through: {
+                        attributes: []
+                    }
+                },
+                {
+                    model: 'Gender'
+                }
+            ]
+        };
+
+        return await this.finder.findByCriteria(filter);
     }
 }
 

@@ -3,8 +3,9 @@ const errorSeliarizer = require('../../../shared/domain/validators/errorSerializ
 const { Op } = require('sequelize');
 
 class FilmValidator {
-    constructor(repository) {
+    constructor(repository, genderRepository) {
         this.repository = repository;
+        this.genderRepository = genderRepository;
     }
 
     async validateCreateFilm(request) {
@@ -33,7 +34,20 @@ class FilmValidator {
                 .min(1)
                 .max(5)
                 .nullable(),
-            image: Yup.string().url().nullable()
+            image: Yup.string().url().nullable(),
+            genderId: Yup.number().integer().required()
+                    .test(
+                        'exists',
+                        'The selected genderId is invalid',
+                        async value => {
+                            if (!value) {
+                                return true;
+                            }
+                            
+                            const genderExists = await this.genderRepository.findById(value);
+                            return genderExists != null;
+                        }
+                    )
         })
 
         try {
@@ -72,7 +86,20 @@ class FilmValidator {
                 ),
             releaseDate: Yup.date().nullable(),
             rating: Yup.number().integer().min(1).max(5).nullable(),
-            image: Yup.string().url().nullable()
+            image: Yup.string().url().nullable(),
+            genderId: Yup.number().integer().required()
+                    .test(
+                        'exists',
+                        'The selected genderId is invalid',
+                        async value => {
+                            if (!value) {
+                                return true;
+                            }
+
+                            const genderExists = await this.genderRepository.findById(value);
+                            return genderExists != null;
+                        }
+                    )
         });
 
         try {

@@ -30,6 +30,13 @@ const createFilmModel = (sequelize) => {
             image: {
                 type: DataTypes.STRING,
                 allowNull: true
+            },
+            genderId: {
+                type: DataTypes.INTEGER,
+                references: {
+                    model: sequelize.models.Gender,
+                    key: 'id'
+                }
             }
 
         },
@@ -51,6 +58,10 @@ const createFilmModel = (sequelize) => {
     //       otherKey: 'id'
     //     });
     // };
+
+    Film.belongsTo(sequelize.models.Gender, {
+        foreignKey: 'gender_id'
+    });
    
     return Film;
 };
