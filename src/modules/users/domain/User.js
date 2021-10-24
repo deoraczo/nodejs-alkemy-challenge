@@ -16,7 +16,6 @@ const createUserModel = (sequelize) => {
             },
             email: {
                 type: DataTypes.STRING(150),
-                unique: true,
                 allowNull: false
             },
             password: {
@@ -36,6 +35,14 @@ const createUserModel = (sequelize) => {
                 type: DataTypes.DATE,
                 allowNull: false
             }
+        },
+        {
+            indexes: [
+                {
+                    unique: true,
+                    fields: ['email']
+                }
+            ]
         }
     );
 }

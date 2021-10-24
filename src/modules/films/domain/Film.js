@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 
 const createFilmModel = (sequelize) => {
-    return sequelize.define(
+    const Film = sequelize.define(
         'Film',
         {
             id: {
@@ -16,7 +16,6 @@ const createFilmModel = (sequelize) => {
             },
             title: {
                 type: DataTypes.STRING(150),
-                unique: true,
                 allowNull: false
             },
             releaseDate: {
@@ -33,8 +32,27 @@ const createFilmModel = (sequelize) => {
                 allowNull: true
             }
 
+        },
+        {
+            indexes: [
+                {
+                    unique: true,
+                    fields: ['title']
+                }
+            ]
         }
     );
+    
+    // Film.associate = function(models) {
+    //     Film.belongsToMany(models.Character, {
+    //       through: 'CharacterFilm',
+    //       as: 'characters',
+    //       foreignKey: 'film_id',
+    //       otherKey: 'id'
+    //     });
+    // };
+   
+    return Film;
 };
 
 module.exports = createFilmModel;
