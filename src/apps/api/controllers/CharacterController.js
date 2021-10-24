@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 class CharacterController {
     constructor(characterService) {
         this.characterService = characterService;
@@ -37,11 +38,79 @@ class CharacterController {
     }
 
     getCharacters = async (req, res, next) => {
-        const characters = await this.characterService.getAllCharacters();
+        const query = req.query;
+
+        const filter = {
+            where: {},
+            attributes: ['image', 'name'],
+            include: []
+        };
+
+        Object.keys(query).forEach(q => {
+            console.log(query[q])
+            if ('like' in query[q]) {
+                filter.where[q] = {
+                    [Op.like]: `%${query[q].eq}%`
+                }
+            }
+
+            if ('eq' in query[q]) {
+                filter.where[q] = {
+                    [Op.eq]: query[q].eq
+                }
+            }
+
+            if ('gte' in query[q]) {
+                filter.where[q] = {
+                    [Op.gte]: query[q].gte
+                }
+            }
+
+            if ('lte' in query[q]) {
+                filter.where[q] = {
+                    [Op.lte]: query[q].lte
+                }
+            }
+
+            // if ('col' in query[q]) {
+            //     filter.where[q] = {
+            //         include: [{
+            //             model: 'Movie',
+            //             as: 'employee',
+            //             where: { id: 1 }
+            //         }
+            //         ]
+            //     }
+            //     filter.include.push({
+            //         model: 'Film',
+            //         as: 'films',
+            //         where: {
+            //             id: 2
+            //         },
+            //         attributes: []
+            //     })
+            // }
+        })
+
+        console.log(filter);
+
+        const characters = await this.characterService.getAllCharacters(filter);
 
         return res.status(200).json({
             data: {
                 characters: characters
+            }
+        });
+    }
+
+    getCharacter = async (req, res, next) => {
+        const { id } = req.params;
+
+        const character = await this.characterService.findCharacter(id);
+
+        return res.json({
+            data: {
+                character
             }
         });
     }

@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const createCharacterModel = require('../../../modules/characters/domain/Character');
+const crateCharacterFilm = require('../../../modules/films/domain/CharacterFilm');
 const createFilmModel = require('../../../modules/films/domain/Film');
 const createUserModel = require('../../../modules/users/domain/User');
 const { databaseConfig } = require('../config');
@@ -8,6 +9,7 @@ const createModels = (sequelize) => {
     createUserModel(sequelize);
     createCharacterModel(sequelize);
     createFilmModel(sequelize);
+    crateCharacterFilm(sequelize);
 };
 
 

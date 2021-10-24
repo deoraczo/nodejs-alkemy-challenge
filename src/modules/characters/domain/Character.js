@@ -22,7 +22,7 @@ const createCharacterModel = (sequelize) => {
                 type: DataTypes.TEXT,
                 allowNull: true
             },
-            weigth: {
+            weight: {
                 type: DataTypes.INTEGER,
                 allowNull: true
             },

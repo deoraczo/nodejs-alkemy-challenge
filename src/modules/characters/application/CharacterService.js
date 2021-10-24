@@ -40,10 +40,27 @@ class CharacterService {
         await this.characterRepository.update(id, { name, age, image, history, weigth })
     }
 
-    async getAllCharacters() {
-        return await this.characterRepository.findAllByCriteria({
-            attributes: ['image', 'name']
+    async findCharacter(id) {
+        const character = await this.characterRepository.findByCriteria({
+            where: {
+                id
+            },
+            include: [
+                {
+                    model: 'Film',
+                    as: 'films',
+                    through: {
+                        attributes: []
+                    }
+                }
+            ]
         });
+
+        return character;
+    }
+
+    async getAllCharacters(filter) {
+        return await this.characterRepository.findAllByCriteria(filter);
     }
 }
 

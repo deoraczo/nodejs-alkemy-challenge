@@ -17,6 +17,7 @@ const characterRouter = (sequelize) => {
         
 
     router.route('/:id')
+        .get(authHandler, asyncHandler(characterController.getCharacter))
         .delete(authHandler, asyncHandler(characterController.deleteCharacter))
         .put(authHandler, asyncHandler(characterController.updateCharacter));
 

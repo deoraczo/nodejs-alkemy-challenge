@@ -1,7 +1,26 @@
+
+const criteriaSerializer = (criteria, models) => {
+    if ('include' in criteria) {
+        const { include } = criteria;
+
+        const associations = include.map(item => {
+            return {
+                ...item,
+                model: models[item.model]
+            }
+        });       
+        
+        return {
+            ...criteria,
+            include: associations
+        }
+    }
+
+    return criteria;
+};
 class SequelizeRepository {
     constructor(sequelize, model) {
-        // this.sequelize = sequelize;
-        // this.model = model;
+        this.models = sequelize.models;
         this.model = sequelize.models[model];
     }
 
@@ -12,17 +31,23 @@ class SequelizeRepository {
     async findById(id) {
         return await this.model.findByPk(id);
     }
+    
 
     async findByCriteria(criteria) {
-        return await this.model.findOne({ ...criteria });
+       return await this.model.findOne(criteriaSerializer(criteria, this.models));
+        
     }
     
     async findAllByCriteria(criteria) {
-        return await this.model.findAll(criteria);
+        return await this.model.findAll(criteriaSerializer(criteria, this.models));
     }
 
     async remove(id) {
         return await this.model.destroy({ where: { id } });
+    }
+
+    async removeByCriteria(criteria) {
+        return await this.model.destroy(criteria);
     }
 
     async update(id, model) {
