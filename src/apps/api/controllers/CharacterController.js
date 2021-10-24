@@ -47,10 +47,9 @@ class CharacterController {
         };
 
         Object.keys(query).forEach(q => {
-            console.log(query[q])
             if ('like' in query[q]) {
                 filter.where[q] = {
-                    [Op.like]: `%${query[q].eq}%`
+                    [Op.like]: `%${query[q].like}%`
                 }
             }
 
@@ -71,25 +70,6 @@ class CharacterController {
                     [Op.lte]: query[q].lte
                 }
             }
-
-            // if ('col' in query[q]) {
-            //     filter.where[q] = {
-            //         include: [{
-            //             model: 'Movie',
-            //             as: 'employee',
-            //             where: { id: 1 }
-            //         }
-            //         ]
-            //     }
-            //     filter.include.push({
-            //         model: 'Film',
-            //         as: 'films',
-            //         where: {
-            //             id: 2
-            //         },
-            //         attributes: []
-            //     })
-            // }
         })
 
         console.log(filter);

@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const SequelizeCharacterRepository = require('../../../modules/characters/infrastructure/SequelizeCharacterRepository');
 const CharacterFilmService = require('../../../modules/films/application/CharacterFilmService');
 const FilmService = require('../../../modules/films/application/FilmService');
 const SequelizeCharacterFilmRepository = require('../../../modules/films/infrastructure/SequelizeCharacterFilmRepository');
@@ -10,12 +11,15 @@ const authHandler = require('../middlewares/authHandlerMiddleware');
 
 const filmRouter = (sequelize) => {
     const router = Router();
+
+    const characterRepository = new SequelizeCharacterRepository(sequelize);
+
     const repository = new SequelizeFilmRepository(sequelize);
     const service = new FilmService(repository);
     const controller = new FilmController(service);
 
     const charaFilmRepository = new SequelizeCharacterFilmRepository(sequelize);
-    const characterFilmService = new CharacterFilmService(charaFilmRepository);
+    const characterFilmService = new CharacterFilmService(charaFilmRepository, repository, characterRepository);
     const characterFilmController = new CharacterFilmController(characterFilmService);
 
     router.route('/')

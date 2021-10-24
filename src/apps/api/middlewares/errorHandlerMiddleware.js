@@ -1,3 +1,4 @@
+const BadException = require("../../../shared/exceptions/BadException");
 const NotFoundException = require("../../../shared/exceptions/NotFoundException");
 const UnauthorizedException = require("../../../shared/exceptions/UnauthorizedException");
 const ValidationException = require("../../../shared/exceptions/ValidationException");
@@ -21,7 +22,7 @@ const errorHandler = (err, req, res, next) => {
             }
         })
 
-        return res.status(403).json({
+        return res.status(422).json({
             error: 'ValidationError',
             message: 'The given data was invalid',
             errors: errors
@@ -38,6 +39,13 @@ const errorHandler = (err, req, res, next) => {
     if (err instanceof NotFoundException) {
         return res.status(404).json({
             error: 'NotFoundError',
+            message: err.message
+        })
+    }
+
+    if (err instanceof BadException) {
+        return res.status(400).json({
+            error: 'BadError',
             message: err.message
         })
     }
