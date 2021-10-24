@@ -14,7 +14,13 @@ class CharacterFinder {
         return character;
     }
     async findByCriteria(criteria) {
-        return await this.repository.findByCriteria(criteria);
+        const  character = await this.repository.findByCriteria(criteria);
+        
+        if (!character) {
+            throw new CharacterNotFoundException('Character not found');
+        }
+
+        return character;
     }
 }
 

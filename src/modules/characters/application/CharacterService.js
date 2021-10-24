@@ -41,7 +41,7 @@ class CharacterService {
     }
 
     async findCharacter(id) {
-        const character = await this.characterRepository.findByCriteria({
+        const character = await this.finder.findByCriteria({
             where: {
                 id
             },
