@@ -1,3 +1,5 @@
+const { Op } = require('sequelize');
+
 class FilmController {
     constructor(service) {
         this.service = service;
@@ -27,7 +29,38 @@ class FilmController {
     }
 
     getFilms = async (req, res, next) => {
-        const films = await this.service.getFilms();
+
+        const query = req.query;
+
+
+        const filter = {
+            where: {},
+            attributes: ['type', 'title', 'release_date', 'image'],
+            include: [],
+            order: []
+        };
+
+        Object.keys(query).forEach(q => {
+            if (typeof query[q] === 'object' && 'like' in query[q]) {
+                filter.where[q] = {
+                    [Op.like]: `%${query[q].like}%`
+                }
+            }
+
+            if (typeof query[q] === 'object' && 'eq' in query[q]) {
+                if (q == 'gender') {
+                    filter.where['genderId'] = {
+                        [Op.eq]: query[q].eq
+                    }
+                }
+            }
+
+            if ('orderBy' in query) {
+                filter.order = [query.orderBy.split(',')]
+            }
+        })
+
+        const films = await this.service.getFilms(filter);
 
         return res.json({
             data: {

@@ -25,7 +25,6 @@ class SequelizeRepository {
     }
 
     async save(model) {
-        console.log(model);
         return await this.model.create(model);
     }
 

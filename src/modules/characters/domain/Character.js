@@ -41,16 +41,6 @@ const createCharacterModel = (sequelize) => {
         }
     );
        
-    //Character.belongsToMany(sequelize.models.Film, { through: sequelize.models.CharacterFilm });   
-    // Character.associate = function(models) {
-    //     console.log(models);
-    //     Character.belongsToMany(models.Film, {
-    //       through: 'CharacterFilm',
-    //       as: 'films',
-    //       foreignKey: 'characterd_id',
-    //       otherKey: 'id'
-    //     });
-    // };
 
     return Character;
 };

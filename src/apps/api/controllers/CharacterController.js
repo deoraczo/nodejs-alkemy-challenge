@@ -72,8 +72,6 @@ class CharacterController {
             }
         })
 
-        console.log(filter);
-
         const characters = await this.characterService.getAllCharacters(filter);
 
         return res.status(200).json({

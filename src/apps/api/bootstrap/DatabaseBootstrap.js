@@ -40,10 +40,6 @@ class DatabaseBootstrap {
         })
     }
 
-    // static getClient = () => {
-    //     console.log(client);
-    //     return client;
-    // }
     getConnection() {
         return connection;
     }

@@ -22,10 +22,8 @@ class FilmService {
         await this.repository.update(id, request);
     }
 
-    async getFilms() {
-        const films = await this.repository.findAllByCriteria({ 
-            attributes: ['type', 'title', 'release_date', 'image']
-        })
+    async getFilms(filter) {
+        const films = await this.repository.findAllByCriteria(filter)
         return films;
     }
 

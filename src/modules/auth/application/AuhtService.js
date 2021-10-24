@@ -80,8 +80,7 @@ class AuhtService {
         const hashedPassword = PasswordEncryptor.encrypt(password);
 
         const createdUser =  await this.userRepository.save({ name, email, password: hashedPassword });
-        //console.log(createdUser.email);
-        
+               
         this.eventBus.publish([new UserRegisteredEvent(createdUser)]);       
         
         return createAccessToken({ user: { id: createdUser.id }});
