@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 
-const createGenderModel = (sequelize) => {
-    const Gender = sequelize.define(
-        'Gender',
+const createGenreModel = (sequelize) => {
+    const Genre = sequelize.define(
+        'Genre',
         {
             id: {
                 type: DataTypes.BIGINT(11),
@@ -27,4 +27,4 @@ const createGenderModel = (sequelize) => {
 }
 
 
-module.exports = createGenderModel;
+module.exports = createGenreModel;

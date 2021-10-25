@@ -31,10 +31,10 @@ const createFilmModel = (sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: true
             },
-            genderId: {
+            genreId: {
                 type: DataTypes.INTEGER,
                 references: {
-                    model: sequelize.models.Gender,
+                    model: sequelize.models.Genre,
                     key: 'id'
                 }
             }
@@ -50,17 +50,8 @@ const createFilmModel = (sequelize) => {
         }
     );
     
-    // Film.associate = function(models) {
-    //     Film.belongsToMany(models.Character, {
-    //       through: 'CharacterFilm',
-    //       as: 'characters',
-    //       foreignKey: 'film_id',
-    //       otherKey: 'id'
-    //     });
-    // };
-
-    Film.belongsTo(sequelize.models.Gender, {
-        foreignKey: 'gender_id'
+    Film.belongsTo(sequelize.models.Genre, {
+        foreignKey: 'genre_id'
     });
    
     return Film;

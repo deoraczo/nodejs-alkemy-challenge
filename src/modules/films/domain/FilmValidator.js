@@ -3,9 +3,9 @@ const errorSeliarizer = require('../../../shared/domain/validators/errorSerializ
 const { Op } = require('sequelize');
 
 class FilmValidator {
-    constructor(repository, genderRepository) {
+    constructor(repository, genreRepository) {
         this.repository = repository;
-        this.genderRepository = genderRepository;
+        this.genreRepository = genreRepository;
     }
 
     async validateCreateFilm(request) {
@@ -35,17 +35,17 @@ class FilmValidator {
                 .max(5)
                 .nullable(),
             image: Yup.string().url().nullable(),
-            genderId: Yup.number().integer().required()
+            genreId: Yup.number().integer().required()
                     .test(
                         'exists',
-                        'The selected genderId is invalid',
+                        'The selected genreId is invalid',
                         async value => {
                             if (!value) {
                                 return true;
                             }
                             
-                            const genderExists = await this.genderRepository.findById(value);
-                            return genderExists != null;
+                            const genreExists = await this.genreRepository.findById(value);
+                            return genreExists != null;
                         }
                     )
         })
@@ -87,17 +87,17 @@ class FilmValidator {
             releaseDate: Yup.date().nullable(),
             rating: Yup.number().integer().min(1).max(5).nullable(),
             image: Yup.string().url().nullable(),
-            genderId: Yup.number().integer().required()
+            genreId: Yup.number().integer().required()
                     .test(
                         'exists',
-                        'The selected genderId is invalid',
+                        'The selected genreId is invalid',
                         async value => {
                             if (!value) {
                                 return true;
                             }
 
-                            const genderExists = await this.genderRepository.findById(value);
-                            return genderExists != null;
+                            const genreExists = await this.genreRepository.findById(value);
+                            return genreExists != null;
                         }
                     )
         });

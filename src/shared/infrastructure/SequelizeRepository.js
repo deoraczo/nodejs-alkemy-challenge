@@ -42,6 +42,10 @@ class SequelizeRepository {
         return await this.model.findAll(criteriaSerializer(criteria, this.models));
     }
 
+    async findAll() {
+        return await this.model.findAll();
+    }
+
     async remove(id) {
         return await this.model.destroy({ where: { id } });
     }

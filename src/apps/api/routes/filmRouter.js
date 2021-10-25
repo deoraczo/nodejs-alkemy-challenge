@@ -4,7 +4,7 @@ const CharacterFilmService = require('../../../modules/films/application/Charact
 const FilmService = require('../../../modules/films/application/FilmService');
 const SequelizeCharacterFilmRepository = require('../../../modules/films/infrastructure/SequelizeCharacterFilmRepository');
 const SequelizeFilmRepository = require('../../../modules/films/infrastructure/SequelizeFilmRepository');
-const SequelizeGenderRepository = require('../../../modules/genders/infrastructure/SequelizeGenderRepository');
+const SequelizeGenreRepository = require('../../../modules/genres/infrastructure/SequelizeGenreRepository');
 const CharacterFilmController = require('../controllers/CharacterFilmController');
 const FilmController = require('../controllers/FilmController');
 const asyncHandler = require('../middlewares/asyncHandlerMiddleware');
@@ -14,10 +14,10 @@ const filmRouter = (sequelize) => {
     const router = Router();
 
     const characterRepository = new SequelizeCharacterRepository(sequelize);
-    const genderRepository = new SequelizeGenderRepository(sequelize);
+    const genreRepository = new SequelizeGenreRepository(sequelize);
 
     const repository = new SequelizeFilmRepository(sequelize);
-    const service = new FilmService(repository, genderRepository);
+    const service = new FilmService(repository, genreRepository);
     const controller = new FilmController(service);
 
     const charaFilmRepository = new SequelizeCharacterFilmRepository(sequelize);

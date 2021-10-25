@@ -1,5 +1,20 @@
+const envPath = () => {
+    const nodeEnv = process.env.NODE_ENV;
+
+    if (nodeEnv === 'test') {
+        return '.env.test';
+    }
+
+    if (nodeEnv === 'dev') {
+        return '.env.dev';
+    }
+    
+
+    return '.env'
+}
+
 require('dotenv').config({
-    path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env'
+    path: envPath()
 });
 
 const app = require('./app');

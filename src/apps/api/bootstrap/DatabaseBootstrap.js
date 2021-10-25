@@ -2,13 +2,13 @@ const Sequelize = require('sequelize');
 const createCharacterModel = require('../../../modules/characters/domain/Character');
 const crateCharacterFilm = require('../../../modules/films/domain/CharacterFilm');
 const createFilmModel = require('../../../modules/films/domain/Film');
-const createGenderModel = require('../../../modules/genders/domain/Gender');
+const createGenreModel = require('../../../modules/genres/domain/Genre');
 const createUserModel = require('../../../modules/users/domain/User');
 const { databaseConfig } = require('../config');
 
 const createModels = (sequelize) => {
     createUserModel(sequelize);
-    createGenderModel(sequelize);
+    createGenreModel(sequelize);
     createCharacterModel(sequelize);
     createFilmModel(sequelize);
     crateCharacterFilm(sequelize);
