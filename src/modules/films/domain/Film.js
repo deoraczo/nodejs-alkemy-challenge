@@ -19,7 +19,7 @@ const createFilmModel = (sequelize) => {
                 allowNull: false
             },
             releaseDate: {
-                type: DataTypes.DATE,
+                type: DataTypes.DATEONLY,
                 allowNull: true
             },
             rating: {
