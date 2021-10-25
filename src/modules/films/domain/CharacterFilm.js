@@ -6,23 +6,25 @@ const crateCharacterFilm = (sequelize) => {
         {
             id: {
                 type: DataTypes.BIGINT(11),
-                primaryKey: true,
+                allowNull: false,
                 autoIncrement: true,
-                allowNull: false              
+                primaryKey: true,            
             },
             characterId: {
                 type: DataTypes.BIGINT(11),
                 references: {
                     model: sequelize.models.Character,
                     key: 'id'
-                }
+                },
+                allowNull: false,
             },
             filmId: {
                 type: DataTypes.BIGINT(11),
                 references: {
                     model: sequelize.models.Film,
                     key: 'id'
-                }
+                },
+                allowNull: false,
             }
         },
         {
@@ -30,7 +32,9 @@ const crateCharacterFilm = (sequelize) => {
         }
     );
 
-    sequelize.models.Film.belongsToMany(sequelize.models.Character, {
+    sequelize.models.Film.belongsToMany(sequelize.models.Character, { through: CharacterFilm, as: 'characters' });
+    sequelize.models.Character.belongsToMany(sequelize.models.Film, { through: CharacterFilm, as: 'films' });
+   /* sequelize.models.Film.belongsToMany(sequelize.models.Character, {
         through: 'character_films',
         as: 'characters',
         foreignKey: 'character_id'
@@ -40,7 +44,7 @@ const crateCharacterFilm = (sequelize) => {
         through: 'character_films',
         as: 'films',
         foreignKey: 'film_id'
-    });
+    });*/
 
     return CharacterFilm;
 }

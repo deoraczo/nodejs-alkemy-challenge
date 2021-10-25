@@ -11,8 +11,7 @@ const UnauthorizedException = require("../../../shared/exceptions/UnauthorizedEx
 const createAccessToken = (payload) => {
     const token = JwtProvider.generate(payload);
     return {
-        accessToken: token,
-        expiresIn: 55555
+        accessToken: token
     };
 }
 class AuhtService {
