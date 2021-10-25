@@ -1,4 +1,4 @@
-const { Op, json } = require('sequelize');
+const { Op, col } = require('sequelize');
 const uploader = require('../../../modules/uploader/FileUploader');
 class FilmController {
     constructor(service) {
@@ -35,9 +35,16 @@ class FilmController {
 
         const filter = {
             where: {},
-            attributes: ['type', 'title', 'release_date', 'image'],
-            include: [],
-            order: []
+            attributes: ['type', 'title', 'release_date', 'image', [col('genre.name'), 'genre']],
+            include: [
+                {
+                    model: 'Genre',
+                    as: 'genre',
+                    attributes: []
+                }
+            ],
+            order: [],
+            raw: true
         };
 
         Object.keys(query).forEach(q => {

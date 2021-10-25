@@ -45,12 +45,8 @@ class FilmService {
                     through: {
                         attributes: []
                     }
-                },
-                {
-                    model: 'Genre',
-                    as: 'genre'
                 }
-            ]
+            ],
         };
 
         return await this.finder.findByCriteria(filter);
