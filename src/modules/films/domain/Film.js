@@ -51,7 +51,7 @@ const createFilmModel = (sequelize) => {
     );
     
     Film.belongsTo(sequelize.models.Genre, {
-        foreignKey: 'genre_id'
+        as: 'genre'
     });
    
     return Film;

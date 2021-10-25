@@ -41,7 +41,7 @@ const createCharacterModel = (sequelize) => {
         }
     );
        
-
+   
     return Character;
 };
 

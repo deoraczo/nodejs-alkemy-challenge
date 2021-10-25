@@ -47,7 +47,8 @@ class FilmService {
                     }
                 },
                 {
-                    model: 'Gender'
+                    model: 'Genre',
+                    as: 'genre'
                 }
             ]
         };

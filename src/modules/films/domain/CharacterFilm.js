@@ -30,9 +30,17 @@ const crateCharacterFilm = (sequelize) => {
         }
     );
 
-    //sequelize.models.Film.belongsToMany(sequelize.models.Character, { as: 'characters', through: CharacterFilm, attributes: [] });
-    sequelize.models.Film.belongsToMany(sequelize.models.Character, { as: 'characters', through: CharacterFilm, attributes: [] });
-    sequelize.models.Character.belongsToMany(sequelize.models.Film, { as: 'films', through: CharacterFilm, attributes: [] });
+    sequelize.models.Film.belongsToMany(sequelize.models.Character, {
+        through: 'character_films',
+        as: 'characters',
+        foreignKey: 'character_id'
+    });
+
+    sequelize.models.Character.belongsToMany(sequelize.models.Film, {
+        through: 'character_films',
+        as: 'movies',
+        foreignKey: 'film_id'
+    });
 
     return CharacterFilm;
 }
