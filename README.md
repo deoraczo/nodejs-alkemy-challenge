@@ -4,6 +4,9 @@
 API para explorar el mundo de Disney, la cual permitirá conocer y modificar los
 personajes que lo componen y entender en qué películas estos participaron.
 
+## DOCUMENTACIÓN
+[Postmam documentation](https://documenter.getpostman.com/view/11567796/UV5c9v6m)
+
 ## Desarrollado con
 
 ### Backend
@@ -49,10 +52,3 @@ Iniciar backend en modo desarollo
 ```
 npm run dev
 ```
-
-## DEMO
-[Disney films api](https://nodejs-alkemy.herokuapp.com/)
-
-Credenciales:
-- email: demo@demo.com
-- password: demo
