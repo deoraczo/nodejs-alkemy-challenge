@@ -42,7 +42,7 @@ class CharacterController {
 
         const filter = {
             where: {},
-            attributes: ['image', 'name'],
+            attributes: ['id', 'image', 'name'],
             include: []
         };
 

@@ -35,7 +35,7 @@ class FilmController {
 
         const filter = {
             where: {},
-            attributes: ['type', 'title', 'release_date', 'image', [col('genre.name'), 'genre']],
+            attributes: ['id', 'type', 'title', 'release_date', 'image', [col('genre.name'), 'genre']],
             include: [
                 {
                     model: 'Genre',

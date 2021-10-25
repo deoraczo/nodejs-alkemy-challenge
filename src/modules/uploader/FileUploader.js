@@ -1,4 +1,5 @@
 const S3Uplaoder = require("./s3/S3Uploader");
+const UploadingException = require("./UploadingException");
 
 class FileUploader {
     constructor() {
@@ -10,6 +11,5 @@ class FileUploader {
         return await this.uploader.upload(file);
     }
 }
-
 
 module.exports = new FileUploader();
