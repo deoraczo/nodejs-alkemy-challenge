@@ -9,6 +9,7 @@ const CharacterFilmController = require('../controllers/CharacterFilmController'
 const FilmController = require('../controllers/FilmController');
 const asyncHandler = require('../middlewares/asyncHandlerMiddleware');
 const authHandler = require('../middlewares/authHandlerMiddleware');
+const uploadHanlder = require('../middlewares/uploadHandlerMiddleware');
 
 const filmRouter = (sequelize) => {
     const router = Router();
@@ -35,6 +36,8 @@ const filmRouter = (sequelize) => {
 
     router.route('/:movieId/characters/:characterId')
         .post(authHandler, asyncHandler(characterFilmController.addCharacter));
+
+    router.post('/:id/upload', authHandler, uploadHanlder.single('image'), asyncHandler(controller.upload));
 
     return router;
 }

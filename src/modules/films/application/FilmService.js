@@ -1,6 +1,6 @@
 const FilmFinder = require("../domain/FilmFinder");
 const FilmValidator = require("../domain/FilmValidator");
-
+const uploader  = require('../../uploader/FileUploader');
 class FilmService {
     constructor(repository, genderRepository) {
         this.repository = repository;
@@ -53,6 +53,15 @@ class FilmService {
         };
 
         return await this.finder.findByCriteria(filter);
+    }
+
+    async uploadImage(id, file) {
+        await this.finder.findById(id);
+
+        const imageURL = await uploader.upload(file);
+
+        await this.repository.update(id,  { image: imageURL });
+        
     }
 }
 

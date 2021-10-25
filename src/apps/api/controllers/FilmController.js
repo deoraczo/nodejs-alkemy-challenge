@@ -1,5 +1,5 @@
-const { Op } = require('sequelize');
-
+const { Op, json } = require('sequelize');
+const uploader = require('../../../modules/uploader/FileUploader');
 class FilmController {
     constructor(service) {
         this.service = service;
@@ -88,6 +88,17 @@ class FilmController {
             data: {
                 movie
             }
+        });
+    }
+
+    upload = async (req, res, next) => {
+
+        const { id } = req.params;        
+
+        await this.service.uploadImage(id, req.file);
+
+        return res.json({
+            message: 'Image uploaded successfully'
         });
     }
 }
