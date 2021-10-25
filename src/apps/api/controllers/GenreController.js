@@ -5,9 +5,9 @@ class GenreController {
 
 
     createGenre = async (req, res, next) => {
-        const { name } = req.body;
+        const { name, image } = req.body;
 
-        const response = await this.service.createGenre({ name });
+        const response = await this.service.createGenre({ name, image });
 
         return res.status(201).json({
             message: 'Genre created successfully',
@@ -21,7 +21,7 @@ class GenreController {
         const { id } = req.params;
         const { name } = req.body;
 
-        await this.service.updateGenre(id, { name });
+        await this.service.updateGenre(id, { name, image });
 
         return res.json({
             message: 'Genre updated successfully'

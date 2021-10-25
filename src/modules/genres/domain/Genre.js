@@ -13,6 +13,10 @@ const createGenreModel = (sequelize) => {
             name: {
                 type: DataTypes.STRING(20),
                 allowNull: false
+            },
+            image: {
+                type: DataTypes.STRING,
+                allowNull: true
             }
         },
         {

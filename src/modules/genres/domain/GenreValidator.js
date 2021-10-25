@@ -28,7 +28,8 @@ class GenreValidator {
 
                         return !nameExists;
                     }
-                )
+                ),
+            image: Yup.string().url().nullable(),
         })
 
 
@@ -65,7 +66,8 @@ class GenreValidator {
 
                         return !nameExitst;
                     }
-                )
+                ),
+            image: Yup.string().url().nullable(),
         })
 
         try {
