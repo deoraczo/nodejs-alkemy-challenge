@@ -92,6 +92,16 @@ class CharacterController {
             }
         });
     }
+
+    uploadImage = async (req, res, next) => {
+        const { id } = req.params;
+
+        await this.characterService.uploadImage(id, req.file);
+
+        return res.json({
+            mesage: 'Image uploaded succesfully'
+        });
+    }
 }
 
 module.exports = CharacterController;

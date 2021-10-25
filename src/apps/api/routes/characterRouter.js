@@ -4,6 +4,7 @@ const SequelizeCharacterRepository = require('../../../modules/characters/infras
 const CharacterController = require('../controllers/CharacterController');
 const asyncHandler = require('../middlewares/asyncHandlerMiddleware');
 const authHandler = require('../middlewares/authHandlerMiddleware');
+const uploadHanlder = require('../middlewares/uploadHandlerMiddleware');
 
 const characterRouter = (sequelize) => {
     const router = Router();
@@ -20,6 +21,8 @@ const characterRouter = (sequelize) => {
         .get(authHandler, asyncHandler(characterController.getCharacter))
         .delete(authHandler, asyncHandler(characterController.deleteCharacter))
         .put(authHandler, asyncHandler(characterController.updateCharacter));
+
+    router.post('/:id/upload', authHandler, uploadHanlder.single('image'), asyncHandler(characterController.uploadImage));
 
     return router;
 }

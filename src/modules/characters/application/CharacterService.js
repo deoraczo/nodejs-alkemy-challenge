@@ -3,7 +3,7 @@ const Yup = require('yup');
 const ValidationException = require("../../../shared/exceptions/ValidationException");
 const { Op } = require("sequelize");
 const CharacterValidator = require("../domain/CharacterValidator");
-
+const uploader = require('../../uploader/FileUploader');
 class CharacterService {
     constructor(characterRepository){
         this.characterRepository = characterRepository;
@@ -61,6 +61,12 @@ class CharacterService {
 
     async getAllCharacters(filter) {
         return await this.characterRepository.findAllByCriteria(filter);
+    }
+
+    async uploadImage(id, file) {
+        await this.finder.findById(id);
+        const imageURL = await uploader.upload(file);
+        await this.characterRepository.update(id, { image: imageURL });
     }
 }
 
