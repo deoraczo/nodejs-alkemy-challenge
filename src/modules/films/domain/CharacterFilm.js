@@ -11,14 +11,14 @@ const crateCharacterFilm = (sequelize) => {
                 allowNull: false              
             },
             characterId: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.BIGINT(11),
                 references: {
                     model: sequelize.models.Character,
                     key: 'id'
                 }
             },
             filmId: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.BIGINT(11),
                 references: {
                     model: sequelize.models.Film,
                     key: 'id'

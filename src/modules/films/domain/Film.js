@@ -32,7 +32,7 @@ const createFilmModel = (sequelize) => {
                 allowNull: true
             },
             genreId: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.BIGINT(11),
                 references: {
                     model: sequelize.models.Genre,
                     key: 'id'
